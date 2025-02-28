@@ -1,0 +1,154 @@
+// 8085 program to add two numbers taking from 0000H and 0001H memory location.We have to store result as well as carry in consecutive memory location.
+
+LDA 0000H
+MOV H,A
+LDA 0001H
+ADD H
+MOV H,A
+MVI A,00H   // It is done because accummulator then finally contains carry after ADC instruction.
+ADC A       // This will actually add carry, if generated to the accumulator. 
+MOV L,A     // Carry moved to L register.
+SHLD 0011H  // Here result is stored in 0012H memory location and carry will be in 0011H memory location. 
+HLT
+
+
+
+// 8085 program to swap two numbers from two specified memory locations and only using two registers.Numbers are in 0000H and 0001H memory location.
+
+LDA 0000H
+MOV B,A
+LDA 0001H
+STA 0000H   // It will store the accumulator result to 0000H memory location.
+MOV A,B
+STA 0001H   // It will store the accumulator result to 0001H memory location.
+HLT
+
+
+
+// 8085 program to subtract two numbers.We have store both result of subtraction as well as carry in consecutive memory location. 
+
+MVI C,00H           // Here choosing C register to store the carry somewhat for our convienence.
+LHLD 0000H          // It will load 0000H to L register and 0001H to H register.
+MOV A,H      
+SUB L               // It will do (A-L).
+JNC START           // If no carry generated or the carry flag is reset after subtraction then jump to start instruction otherwise to the next instruction.
+INR C               // This instruction will get executed when there is carry, so we increase C register by one and now it contains 01H. 
+START: STA 0010H    // Store accumulator result to 0010H memory location.
+MOV A,C             
+STA 0011H           // accumulator result loaded to 0011H memory location.
+HLT
+
+
+
+// Understand the meaning of ACI and DAD instruction.
+
+LDA 0022H
+MOV H,A
+LDA 0064H
+ADD H
+MOV L,A
+MVI A,00H
+ACI 00H        // As answer is zero in this step(when carry flag is reset) so here zero and parity flag will get set.
+MOV H,A
+SHLD 0000H
+LDA 0038H
+MOV D,A
+LDA 007AH
+MOV E,A
+DAD D         // It will add the content of D-E register pair with H-L pair and then store it in H-L pair.In this no change in flags observed.
+SHLD 0004H
+HLT
+
+
+// 8085 program to multiply two 8 bits numbers when their multiplication is a 8 bit number.Taking two numbers from 0001H and 0002H and storing at 0003H.
+// Logic is Repeatative multiplication. 
+
+LDA 0001H
+MOV B,A
+LDA 0002H 
+MOV C,A
+MOV A,B
+DCR C
+Loop: ADD B
+DCR C
+JNZ Loop
+STA 0003H
+HLT
+
+
+// 8085 program to multiply two 8 bits numbers when their multiplication is greater than a 8 bit number.Taking two numbers from 0001H and 0002H and storing at 0012H.
+// Logic is Repeatative multiplication. // H-register contains carry finally and D-register contains the product.
+
+
+LDA 0000H
+MOV B,A
+LDA 0001H
+MOV C,A 
+MVI A,00H
+Loop: ADD B
+MOV D,A
+MVI A,00H
+ADC H
+MOV H,A
+MOV A,D
+DCR C
+JNZ Loop
+STA 0012H
+MOV A,H
+STA 0013H
+HLT
+
+
+// To identify the entered number is odd or even.If it is even then store 00 at 0003H and if it is odd then store 01 at the same memory location. 
+
+LDA 0000H
+ANI 01H
+STA 0003H
+HLT
+
+
+// Addition of two 16-bit numbers by DAD operation.One number is by 0000 and 0001 and another by 0002 and 0003.
+
+LDA 0000H                                                  
+MOV D,A
+LDA 0001H
+MOV E,A
+LDA 0002H
+MOV H,A
+LDA 0003H
+MOV L,A
+DAD D
+MVI A,00H
+ADC A
+STA 0013H
+SHLD 0015H
+HLT
+
+OR
+
+LHLD 0000H
+XCHG
+LHLD 0002H
+DAD D
+MVI A,00H
+ADC A
+STA 0013H
+SHLD 0015H
+HLT
+
+
+
+// Program to divide two numbers.
+
+LDA 0000H      // Loading the divisor. 
+MOV D,A        // Loading the dividend.
+LDA 0001H
+MVI B,00H
+Loop: SUB D
+INR B
+CMP
+JNC Loop
+STA 0005H     // Storing the remainder.
+MOV A,B
+STA 0006H    // Storing the Quotient.
+HLT

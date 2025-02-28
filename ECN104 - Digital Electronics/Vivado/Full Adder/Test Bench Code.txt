@@ -1,0 +1,36 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity fulladder_tb is
+--  Port ( );
+end fulladder_tb;
+
+architecture Behavioral of fulladder_tb is
+component fulladder is
+port(
+    a,b,cin:in std_logic;
+    s,cout:out std_logic
+);
+end component;
+
+signal a_tb, b_tb, cin_tb:std_logic:='0';
+signal s_tb,cout_tb:std_logic;
+
+begin
+uut: fulladder port map(a=>a_tb,b=>b_tb,cin=>cin_tb,s=>s_tb,cout=>cout_tb);
+
+stim_proc:process
+
+begin
+a_tb<='0';b_tb<='0';cin_tb<='0';wait for 5ns;
+a_tb<='0';b_tb<='0';cin_tb<='1';wait for 5ns;
+a_tb<='0';b_tb<='1';cin_tb<='0';wait for 5ns;
+a_tb<='0';b_tb<='1';cin_tb<='1';wait for 5ns;
+a_tb<='1';b_tb<='0';cin_tb<='0';wait for 5ns;
+a_tb<='1';b_tb<='0';cin_tb<='1';wait for 5ns;
+a_tb<='1';b_tb<='1';cin_tb<='0';wait for 5ns;
+a_tb<='1';b_tb<='1';cin_tb<='1';wait for 5ns;
+
+end process;
+
+end Behavioral;

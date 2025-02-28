@@ -1,0 +1,35 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity fullsubtractor_tb is
+--  Port ( );
+end fullsubtractor_tb;
+
+architecture Behavioral of fullsubtractor_tb is
+component fullsubtractor is
+port(
+    a,b,bin:in std_logic;
+    sub,bout:out std_logic
+);
+end component;
+
+signal a_tb, b_tb, bin_tb:std_logic:='0';
+signal sub_tb, bout_tb:std_logic;
+
+begin
+uut: fullsubtractor port map(a=>a_tb,b=>b_tb,bin=>bin_tb,sub=>sub_tb,bout=>bout_tb);
+
+stim_proc:process
+
+begin
+a_tb<='0';b_tb<='0';bin_tb<='0';wait for 5ns;
+a_tb<='0';b_tb<='0';bin_tb<='1';wait for 5ns;
+a_tb<='0';b_tb<='1';bin_tb<='0';wait for 5ns;
+a_tb<='0';b_tb<='1';bin_tb<='1';wait for 5ns;
+a_tb<='1';b_tb<='0';bin_tb<='0';wait for 5ns;
+a_tb<='1';b_tb<='0';bin_tb<='1';wait for 5ns;
+a_tb<='1';b_tb<='1';bin_tb<='0';wait for 5ns;
+a_tb<='1';b_tb<='1';bin_tb<='1';wait for 5ns;
+
+end process;
+end Behavioral;

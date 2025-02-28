@@ -1,0 +1,25 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity encoder is
+port(
+    A:in std_logic_vector(7 downto 0);
+    D:out std_logic_vector(2 downto 0)
+);
+end encoder;
+
+architecture Behavioral of encoder is
+
+begin
+
+D<="000" when A<="00000001" else
+   "001" when A<="00000010" else
+   "010" when A<="00000100" else
+   "011" when A<="00001000" else
+   "100" when A<="00010000" else
+   "101" when A<="00100000" else
+   "110" when A<="01000000" else
+   "111" when A<="10000000" else
+   "000";
+
+end Behavioral;

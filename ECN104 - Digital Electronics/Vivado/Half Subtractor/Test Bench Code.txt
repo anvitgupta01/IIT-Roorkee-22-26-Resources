@@ -1,0 +1,30 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity halfsubtractor_tb is
+--  Port ( );
+end halfsubtractor_tb;
+
+architecture Behavioral of halfsubtractor_tb is
+component halfsubtractor is
+port(
+    x,y:in std_logic;
+    diff, bor:out std_logic
+);
+end component;
+signal x_tb,y_tb:std_logic:='0';
+signal bor_tb, diff_tb:std_logic;
+
+begin
+uut: halfsubtractor port map(x=>x_tb,y=>y_tb,diff=>diff_tb,bor=>bor_tb);
+
+stim_proc:process
+
+begin
+x_tb<='0';y_tb<='0';wait for 5ns;
+x_tb<='0';y_tb<='1';wait for 5ns;
+x_tb<='1';y_tb<='0';wait for 5ns;
+x_tb<='1';y_tb<='1';wait for 5ns;
+
+end process;
+end Behavioral;

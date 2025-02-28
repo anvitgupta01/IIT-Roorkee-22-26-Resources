@@ -1,0 +1,16 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity fullsubtractor is
+port(
+    a,b,bin:in std_logic;
+    sub,bout:out std_logic
+);
+end fullsubtractor;
+
+architecture Behavioral of fullsubtractor is
+
+begin
+bout<=((a xor b)and b) or (bin and (not (a xor b) ));
+sub<=a xor b xor bin;
+end Behavioral;

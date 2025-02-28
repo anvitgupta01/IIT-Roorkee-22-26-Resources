@@ -1,0 +1,30 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity counter is
+port(
+    clk,reset,enable:in std_logic;
+    count:out std_logic_vector(3 downto 0)
+);
+end counter;
+
+architecture Behavioral of counter is
+
+signal counter_reg:std_logic_vector(3 downto 0):="0000";
+
+begin
+ process(clk,reset)
+ begin
+  if reset = '1' then
+    counter_reg<="0000";
+  elsif rising_edge(clk) then
+    if enable = '1' then
+        counter_reg<= std_logic_vector(unsigned(counter_reg)+1);
+    end if;
+  end if;
+ end process;
+ 
+ count<=counter_reg when counter_reg<"1010" else "0000";
+
+end Behavioral;

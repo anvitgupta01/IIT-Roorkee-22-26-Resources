@@ -1,0 +1,38 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity pattern_detect_tb is
+end pattern_detect_tb;
+
+architecture Behavioral of pattern_detect_tb is
+component pattern is
+port(
+    clk,reset,input:in std_logic;
+    output:out std_logic
+);
+end component;
+
+signal clk,reset,input:std_logic:='0';
+signal output:std_logic;
+
+begin
+uut: pattern port map(clk=>clk,reset=>reset,input=>input,output=>output);
+
+clk<=not clk after 3ns;
+
+
+stimulus:process
+begin
+input<='1';wait for 3ns;
+input<='0';wait for 3ns;
+input<='1';wait for 3ns;
+input<='1';wait for 3ns;
+input<='0';wait for 3ns;
+input<='1';wait for 3ns;
+input<='0';wait for 3ns;
+input<='1';wait for 3ns;
+input<='0';wait for 3ns;
+input<='1';wait for 3ns;
+end process;
+
+end Behavioral;

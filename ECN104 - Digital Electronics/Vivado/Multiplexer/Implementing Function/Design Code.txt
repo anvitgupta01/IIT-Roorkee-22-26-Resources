@@ -1,0 +1,23 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+-- Implementing (m1+m2+m6+m7);
+entity multiplexer is
+port(
+    A,B,C:in std_logic;
+    Z:out std_logic
+);
+end multiplexer;
+
+architecture Behavioral of multiplexer is
+
+begin
+process(A,B)
+begin
+if (A='0' and B='0') then Z<=C; 
+elsif (A='0' and B='1') then Z<=not C;
+elsif (A='1' and B='0') then Z<='0';
+elsif (A='1' and B='1') then Z<='1';
+end if;
+end process;
+end Behavioral;

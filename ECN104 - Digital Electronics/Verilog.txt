@@ -1,0 +1,158 @@
+// 1 bit full adder
+module One_bit_FA;
+
+input a,b,cin;
+output cout,s;
+
+assign cout = (a & b) | (cin & (a ^ b));
+assign s = a ^ b ^ cin; 
+
+endmodule
+
+---------------------------------------------------------------------------------------------
+
+// 4 bit full adder
+module four_bit_adder;
+
+input [3:0] a,b;
+input cin;
+output [3:0] sum;
+output cout;
+
+wire w1,w2,w3,w4;
+
+One_bit_FA f1(a[0],b[0],cin,w1,sum[0]);
+One_bit_FA f2(a[1],b[1],w1,w2,sum[1]);
+One_bit_FA f3(a[2],b[2],w2,w3,sum[2]);
+One_bit_FA f4(a[3],b[3],w3,w4,sum[3]);
+
+assign cout = w4;
+
+endmodule
+
+----------------------------------------------------------------------------------------------
+
+// Make a clock of timeperiod = 20 units.
+// in always block, if we want to use output variables , then make them reg variables;
+module clock_gen;
+
+output reg clk;
+
+initial clk = 1'b0;
+always #10 clk <= ~clk;
+initial #1000 $finish;
+
+endmodule
+
+----------------------------------------------------------------------------------------------
+
+// t-flip flop
+module t_ff;
+
+input t,clk,rst;
+output reg q,qn;
+
+always @(posedge rst, negedge clk) 
+    begin
+      if (rst) q <= 1'b0;
+      if (!clk) q <= q^t;
+    end
+
+assign qn = ~q;
+
+endmodule
+
+----------------------------------------------------------------------------------------------
+
+// d-flip flop
+module d_ff;
+
+input d,clk,rst;
+output reg q,qn;
+
+always @(posedge rst, negedge clk) 
+  begin
+    if (rst) q <= 1'b0;
+    if (!clk) q <= d;
+  end
+
+assign qn = ~q;
+
+endmodule
+
+-----------------------------------------------------------------------------------------------
+
+// jk flip flop
+module jk_ff;
+
+input j,k,clk,rst;
+output reg q,qn;
+
+always @(posedge rst, negedge clk) 
+  begin
+    if (rst) q <= 1'b0;
+    if (!clk) q <= (j & (~q)) | ((~k) & q);
+  end
+
+assign qn = ~q;
+
+endmodule
+
+-----------------------------------------------------------------------------------------------
+
+// 4bit ripple counter using t_ff
+module four_bit_ripple_counter();
+
+input clk;
+output [3:0] q;
+
+t_ff t1(1'b1, clk, q[0]);
+t_ff t2(1'b1, q[0], q[1]);
+t_ff t3(1'b1, q[1], q[2]);
+t_ff t4(1'b1, q[2], q[3]);
+
+endmodule
+
+-----------------------------------------------------------------------------------------------
+
+// testbench code for 4bit ripple counter above
+`timescale 1ns/1ps
+
+module ripple_tb;
+
+reg clk;
+output [3:0] res;
+
+four_bit_ripple_counter f1(clk,res);
+
+initial clk = 1'b0;
+
+always #10 clk = ~clk;
+
+initial #10000 $finish;
+
+endmodule
+
+------------------------------------------------------------------------------------------------
+
+// 8085 program to reverse sort two numbers
+LP2 : LXI H,2100H          21 00 21        2000
+      MVI C,13H            0E 13           2003
+      MVI B,00H            06 00           2005
+LP1:  MOV A,M              7E              2007
+      INX H                23              2008
+      CMP M                BE              2009
+      JNC LP               D2 14 20        200A
+      MOV D,M              56              200D
+      MOV M,A              77              200E
+      DCX H                2B              200F
+      MOV M,D              72              2010
+      INX H                23              2011 
+      MVI B,01H            06 01           2012
+LP:   DCR C                0D              2014
+      JNZ LP1              C2 07 20        2015
+      DCR B                05              2018
+      JZ LP2               CA 00200        2019
+      RST 5                EF              201C
+
+------------------------------------------------------------------------------------------------

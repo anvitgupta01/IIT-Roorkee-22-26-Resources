@@ -1,0 +1,37 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity decoder_tb is
+end decoder_tb;
+
+architecture behavioral of decoder_tb is
+component decoder is
+    port(
+        A0,A1,A2:in std_logic;
+        D0,D1,D2,D3,D4,D5,D6,D7:out std_logic
+    );
+end component;
+
+signal A0_TB,A1_TB,A2_TB:std_logic:='0';
+signal D0_TB,D1_TB,D2_TB,D3_TB,D4_TB,D5_TB,D6_TB,D7_TB:std_logic;
+
+    begin
+        uut: decoder port map(
+        A0=>A0_TB,
+        A1=>A1_TB,
+        A2=>A2_TB,
+        D0=>D0_TB,
+        D1=>D1_TB,
+        D2=>D2_TB,
+        D3=>D3_TB,
+        D4=>D4_TB,
+        D5=>D5_TB,
+        D6=>D6_TB,
+        D7=>D7_TB
+        );
+        
+        A0_TB<=not A0_TB after 3ns;
+        A1_TB<=not A1_TB after 7ns;
+        A2_TB<=not A2_TB after 4ns;
+        
+end behavioral;

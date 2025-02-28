@@ -1,0 +1,17 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.numeric_std.all;
+
+entity multiplexer_common is
+port(
+    A:in std_logic_vector(7 downto 0); -- Input signals
+    S:in std_logic_vector(2 downto 0); -- Control signals
+    Z:out std_logic
+);
+end multiplexer_common;
+
+architecture Behavioral of multiplexer_common is
+
+begin
+Z<=A(TO_INTEGER(unsigned(S)));
+end Behavioral;

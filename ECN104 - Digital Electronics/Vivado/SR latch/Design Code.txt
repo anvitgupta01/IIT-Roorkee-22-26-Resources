@@ -1,0 +1,22 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity SR_ff is
+port(
+    S,R:in std_logic;
+    Q,QN:out std_logic
+);
+end SR_ff;
+
+architecture Behavioral of SR_ff is
+
+signal Q_int, QN_int:std_logic:='0';
+begin
+
+Q_int<=R nor QN_int;
+QN_int<= S nor Q_int;
+
+Q<=Q_int;
+QN<=QN_int;
+
+end Behavioral;

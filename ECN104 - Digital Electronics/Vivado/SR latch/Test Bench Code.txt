@@ -1,0 +1,38 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity SR_ff_tb is
+end SR_ff_tb;
+
+architecture Behavioral of SR_ff_tb is
+component SR_ff is
+port(
+    S,R:in std_logic;
+    Q,QN:out std_logic
+);
+end component;
+
+signal S_tb,R_tb:std_logic;
+signal Q_tb:std_logic:='0';
+signal QN_tb:std_logic:='1';
+
+begin
+uut:SR_ff port map(S=>S_tb,R=>R_tb,Q=>Q_tb,QN=>QN_tb);
+
+stimulus:process
+begin
+S_tb<='0';wait for 10ns;
+S_tb<='1';wait for 10ns;
+S_tb<='0';wait for 10ns;
+R_tb<='1';wait for 10ns;
+R_tb<='0';wait for 10ns;
+
+S_tb<='0';R_tb<='1';wait for 10ns;
+S_tb<='1';R_tb<='0';wait for 10ns;
+
+S_tb<='1';R_tb<='1';wait for 10ns;
+S_tb<='0';wait for 10ns;
+R_tb<='0';wait for 10ns;
+end process;
+
+end Behavioral;

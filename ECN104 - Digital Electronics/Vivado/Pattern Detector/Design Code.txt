@@ -1,0 +1,49 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.numeric_std.all;
+
+entity pattern is
+port(
+    clk,reset,input:in std_logic;
+    output:out std_logic
+);
+end pattern;
+
+architecture Behavioral of pattern is
+
+type state_type is (S0,S1,S2,S3);
+signal state:state_type;
+
+begin
+
+process(reset,clk)
+begin
+if reset='1' then state<=S0;
+                  output<='0';
+elsif rising_edge(clk) then
+    case state is
+        when S0=>
+            if input='1' then state<=S1;
+            else state<=S0;
+            end if;
+            output<='0';
+        when S1=>
+            if input='0' then state<=S2;
+            else state<=S1;
+            end if;
+            output<='0';
+        when S2=>
+            if input='1' then state<=S3;
+            else state<=S2;
+            end if;
+            output<='0';
+        when S3=>
+            if input='1' then state<=S0; output<='1';
+            else state<=S0; output<='0';
+            end if;
+     end case;
+end if;
+
+end process;
+
+end Behavioral;

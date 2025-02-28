@@ -1,0 +1,25 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity multiplexer_tb is
+end multiplexer_tb;
+
+architecture Behavioral of multiplexer_tb is
+component multiplexer is
+port(
+    A,B,C:in std_logic;
+    Z:out std_logic
+);
+end component;
+
+signal A_TB,B_TB,C_TB:std_logic:='0';
+signal Z_TB:std_logic;
+
+begin
+uut: multiplexer port map(A=>A_TB,B=>B_TB,C=>C_TB,Z=>Z_TB);
+
+A_TB<=NOT A_TB AFTER 2ns;
+B_TB<=not B_TB after 3ns;
+C_TB<=not C_TB after 4ns;
+
+end Behavioral;

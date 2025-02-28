@@ -1,0 +1,27 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity d_latch is
+port(
+    D,En:in std_logic;
+    Q,QN:out std_logic
+);
+end d_latch;
+
+architecture Behavioral of d_latch is
+
+signal Q_int:std_logic:='0';
+
+begin
+
+process(D,EN)
+begin
+if En<='1' then
+    Q_int<=D;
+end if;
+end process;
+
+Q<=Q_int;
+QN<=not Q_int;
+
+end Behavioral;

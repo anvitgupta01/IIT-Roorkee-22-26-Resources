@@ -1,0 +1,17 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity halfsubtractor is
+port(
+    x,y:in std_logic;
+    diff, bor:out std_logic
+);
+end halfsubtractor;
+
+architecture Behavioral of halfsubtractor is
+
+begin
+diff<=x xor y;
+bor<=(x xor y) and y;
+
+end Behavioral;
